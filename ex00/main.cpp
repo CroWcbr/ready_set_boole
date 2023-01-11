@@ -11,7 +11,6 @@ static void print_bit(u32 &a)
 			std::cout << ((tmp[byte] >> bit) & 1);
 		std::cout << " ";
 	}
-	std::cout << std::endl;
 }
 
 int main()
@@ -34,13 +33,14 @@ int main()
 
 		result = adder(a, b);
 
-		std::cout << a << "\t";
+
 		print_bit(a);
-		std::cout << b << "\t";
+		std::cout << "\t" << a << std::endl;
 		print_bit(b);
-		std::cout << "\t-----------------------------------" << std::endl;
-		std::cout << result <<"\t";
+		std::cout << "\t" << b << std::endl;
+		std::cout << "-----------------------------------" << std::endl;
 		print_bit(result);
+		std::cout << "\t" << result << std::endl;
 		std::cout << std::endl;
 	}
 	std::cout << "THE END" << std::endl;
