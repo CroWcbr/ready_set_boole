@@ -1,5 +1,4 @@
 #include "tree.hpp"
-#include <iostream>
 
 Tree::Tree(const std::string &str)
 {
@@ -8,29 +7,23 @@ Tree::Tree(const std::string &str)
 	for(size_t i = 0, len = str.size(); i < len; i++)
 	{
 		char c = str[i];
-		if (c == '0' || c == '1'|| c == '!')
+
+		if (c == '!')
 		{
-			if (c == '!')
+			i++;
+			if (!(i < len && (str[i] == '0' || str[i] == '1')))
 			{
-				if (i < len && (str[i + 1] == '0' || str[i + 1] == '1'))
-				{
-					i++;
-					c = (str[i] == '0' ? '1' : '0');
-				}
+				clear_stack(_st_n);
+				if (i < len)
+					throw std::runtime_error("Wrong bool in string after Negative: " + str.substr(0, i + 1));
 				else
-				{
-					clear_stack(_st_n);
-					if (i < len)
-						throw std::runtime_error("Wrong bool in string after Negative: " + str.substr(0, i + 2));
-					else
-						throw std::runtime_error("No bool in string after Negative: " + str.substr(0, i + 1));
-				}
+					throw std::runtime_error("No bool in string after Negative: " + str.substr(0, i));
 			}
-			Node *tmp = new Node;
-			tmp->key = c;
-			tmp->left = NULL;
-			tmp->right = NULL;
-			_st_n.push(tmp);
+			_st_n.push(new Node(str[i] == '0' ? '1' : '0', NULL, NULL));
+		}
+		else if (c == '0' || c == '1')
+		{
+			_st_n.push(new Node(c, NULL, NULL));
 		}
 		else if (c == '&' || c == '|' || \
 				c == '^' || c == '>' || \
@@ -41,13 +34,11 @@ Tree::Tree(const std::string &str)
 				clear_stack(_st_n);
 				throw std::runtime_error("Wrong operator in string (no bool for last operator): " + str.substr(0, i + 1));
 			}
-			Node *tmp = new Node;
-			tmp->key = c;
-			tmp->right = _st_n.top();
+			Node *right = _st_n.top();
 			_st_n.pop();
-			tmp->left = _st_n.top();
+			Node *left = _st_n.top();
 			_st_n.pop();
-			_st_n.push(tmp);
+			_st_n.push(new Node(c, left, right));
 		}
 		else
 		{	
@@ -82,8 +73,8 @@ void	Tree::clear_node(Node* node)
 {
 	if (node != NULL)
 	{
-		clear_node(node->left);
-		clear_node(node->right);
+		clear_node(node->_left);
+		clear_node(node->_right);
 		delete node;
 	}
 }
@@ -92,39 +83,39 @@ void	Tree::print_tree(Node* node)
 {
 	if (node != NULL)
 	{
-		std::cout << node << "\t" << node->key << "\t" << node->left << "\t" << node->right << std::endl;
-		print_tree(node->left);
-		print_tree(node->right);
+		std::cout << node << "\t" << node->_key << "\t" << node->_left << "\t" << node->_right << std::endl;
+		print_tree(node->_left);
+		print_tree(node->_right);
 	}
 }
 
 void	Tree::print()
 {
 	std::cout << "TREE print" << std::endl;
-	std::cout << "root = " << _root->key << std::endl;
+	std::cout << "root = " << _root->_key << std::endl;
 	print_tree(_root);
 	std::cout << "END TREE print" << std::endl;
 }
 
 bool	Tree::evol(Node* node)
 {
-	if (node->left)
+	if (node->_left)
 	{
-		if (node->key == '|')
-			return (evol(node->left) | evol(node->right));
-		else if (node->key == '&')
-			return (evol(node->left) & evol(node->right));
-		else if (node->key == '^')
-			return (evol(node->left) ^ evol(node->right));
-		else if (node->key == '>')
-			return (!evol(node->left) | evol(node->right));
-		else if (node->key == '=')
-			return (!evol(node->left) ^ evol(node->right));
+		if (node->_key == '|')
+			return (evol(node->_left) | evol(node->_right));
+		else if (node->_key == '&')
+			return (evol(node->_left) & evol(node->_right));
+		else if (node->_key == '^')
+			return (evol(node->_left) ^ evol(node->_right));
+		else if (node->_key == '>')
+			return (!evol(node->_left) | evol(node->_right));
+		else if (node->_key == '=')
+			return (!evol(node->_left) ^ evol(node->_right));
 		else
 			throw std::runtime_error("Unreachable");
 	}
 	else
-		return (node->key == '1');
+		return (node->_key == '1');
 }
 
 bool	Tree::result()

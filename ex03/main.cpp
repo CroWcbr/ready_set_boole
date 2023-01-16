@@ -57,6 +57,10 @@ int main()
 		{
 			std::cerr << e.what() << std::endl;
 		}
+		catch (...)
+		{
+			std::cerr << "bad_alloc: Wrong memory operator NEW" << std::endl;
+		}
 	}
 	std::cout << "THE END" << std::endl;
 	return 0;

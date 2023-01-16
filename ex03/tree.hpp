@@ -4,11 +4,22 @@
 #include <stack>
 #include <iostream>
 
-typedef struct Tnode {
-	char			key;
-	struct Tnode	*left;
-	struct Tnode	*right;
-} Node;
+class Node {
+	public:
+		char	_key;
+		Node	*_left;
+		Node	*_right;
+	
+	public:
+		Node() = delete;
+		Node(const Node& src) = delete;
+		Node& operator=(const Node& src) = delete;
+
+		Node(char key, Node *left, Node *right):
+			_key(key), _left(left), _right(right)
+		{}
+		~Node() {};
+};
 
 class Tree
 {
@@ -25,6 +36,7 @@ class Tree
 		Tree() = delete;
 		Tree(const Tree& src) = delete;
 		Tree& operator=(const Tree& src) = delete;
+
 		Tree(const std::string &str);
 		~Tree();
 
