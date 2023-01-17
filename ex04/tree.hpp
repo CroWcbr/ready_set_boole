@@ -8,7 +8,6 @@
 class Node {
 	public:
 		char	_key;
-		bool	_neg;
 		Node	*_left;
 		Node	*_right;
 
@@ -17,8 +16,8 @@ class Node {
 		Node(const Node& src) = delete;
 		Node& operator=(const Node& src) = delete;
 
-		Node(char key, char neg, Node *left, Node *right):
-			_key(key), _neg(neg), _left(left), _right(right)
+		Node(char key, Node *left, Node *right):
+			_key(key), _left(left), _right(right)
 		{}
 		~Node() {};
 };
