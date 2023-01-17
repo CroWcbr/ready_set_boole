@@ -13,7 +13,6 @@ void print_truth_table(const std::string &str)
 	for (const auto &c : key_map)
 		std::cout << c.first << " | ";
 	std::cout << "= |" << std::endl;
-	uint32_t max = 1 << key_map.size();
 
 	std::map<char, bool>::iterator it;
 	for (size_t i_key = 0, size = key_map.size(), max = 1 << size; i_key < max; i_key++)
