@@ -10,16 +10,14 @@ Tree::Tree(const std::string &str)
 
 		if (c == '!')
 		{
-			i++;
-			if (!(i < len && (str[i] == '0' || str[i] == '1')))
+			if (_st_n.size() < 1)
 			{
 				clear_stack(_st_n);
-				if (i < len)
-					throw std::runtime_error("Wrong bool in string after Negative: " + str.substr(0, i + 1));
-				else
-					throw std::runtime_error("No bool in string after Negative: " + str.substr(0, i));
+				throw std::runtime_error("Wrong bool in string before Negative: " + str.substr(0, i + 1));
 			}
-			_st_n.push(new Node(str[i] == '0' ? '1' : '0', NULL, NULL));
+			Node *left = _st_n.top();
+			_st_n.pop();
+			_st_n.push(new Node('!', left, NULL));
 		}
 		else if (c == '0' || c == '1')
 		{
@@ -101,6 +99,8 @@ bool	Tree::evol(Node* node)
 {
 	if (node->_left)
 	{
+		if (node->_key == '!')
+			return (!evol(node->_left));
 		if (node->_key == '|')
 			return (evol(node->_left) | evol(node->_right));
 		else if (node->_key == '&')
