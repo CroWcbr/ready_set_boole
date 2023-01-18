@@ -1,7 +1,7 @@
 NAME		=	print_truth_table
 
 CC			=	c++ -std=c++17
-CFLAGS		=	#-Wall -Wextra -Werror
+CFLAGS		=	-Wall -Wextra -Werror
 
 INCLUDES	=	print_truth_table.hpp \
 				tree.hpp

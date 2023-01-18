@@ -21,7 +21,7 @@ void print_truth_table(const std::string &str)
 		std::cout << "| ";
 		for (uint32_t i = 0; i < size; i++)
 		{
-			it->second = ((i_key >> size - i - 1) & 1);
+			it->second = ((i_key >> (size - i - 1)) & 1);
 			std::cout << it->second << " | ";
 			it++;
 		}
