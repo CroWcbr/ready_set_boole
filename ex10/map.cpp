@@ -9,5 +9,5 @@ double map(uint16_t x, uint16_t y)
 		z |= (x & (1 << i)) << i;
 		z |= (y & (1 << i)) << (i + 1);
 	}
-	return static_cast<double>(z) / static_cast<double>(1ull << 32);
+	return static_cast<double>(z) / std::numeric_limits<uint32_t>::max();
 }

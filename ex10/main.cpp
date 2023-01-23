@@ -30,6 +30,7 @@ static void	_signal_handler(int signal)
 static uint16_t	input_int(char c)
 {
 	std::string	input;
+	int32_t	result;
 
 	std::cout << "Input " << c << " > ";
 	getline(std::cin, input);
@@ -37,14 +38,19 @@ static uint16_t	input_int(char c)
 	if (std::cin.eof())				//Ctrl + 'D'
 		_signal_handler(-1);
 
-	for (const auto &c : input)
-		if (c < '0' || c > '9')
-			throw std::runtime_error("UINT has invalid characters");
+	try
+	{
+		result = std::stoi(input);
+	}
+	catch(...)
+	{
+		throw std::runtime_error("WRONG Enter");
+	}
 	
-	if (std::stoi(input) > 65535)
-		throw std::runtime_error("Input is too big. Correct input >0 && <65535");
+	if (result <0 || result > 65535)
+		throw std::runtime_error("Input is wrong. Correct input >0 && <65535");
 
-	return (uint16_t)std::stoi(input);
+	return static_cast<uint16_t>(result);
 }
 
 // static void print_bit(uint32_t &a)
@@ -91,16 +97,12 @@ int main()
 			{
 				uint16_t x = input_int('X');
 				uint16_t y = input_int('Y');
-				std::cout << map(x, y) << std::endl;
+				std::cout << "\t" << map(x, y) << std::endl;
 			}
 		}
 		catch(const std::exception& e)
 		{
 			std::cerr << e.what() << std::endl;
-		}
-		catch (...)
-		{
-			std::cerr << "bad_alloc: Wrong memory operator NEW" << std::endl;
 		}
 	}
 	std::cout << "THE END" << std::endl;
