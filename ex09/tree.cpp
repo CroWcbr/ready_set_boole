@@ -333,7 +333,7 @@ Vec<i32>	Tree::evol_key_map_sets(Node* node, std::map<char, Vec<i32>> &key_map)
 						break;
 					}
 		}
-		else
+		else if (node->_key == '|')
 		{
 			for (const auto &c : vector_left)
 				tmp.push_back(c);
@@ -349,6 +349,29 @@ Vec<i32>	Tree::evol_key_map_sets(Node* node, std::map<char, Vec<i32>> &key_map)
 					tmp.push_back(vector_right[r]);
 			}
 		}
+		else if (node->_key == '^')
+		{
+			for (const auto &c : vector_left)
+				tmp.push_back(c);
+			size_t l = 0;
+			size_t l_max = vector_left.size();
+			for (size_t r = 0, r_max = vector_right.size(); r < r_max; r++)
+			{
+				l = 0;
+				for (; l < l_max; l++)
+					if (vector_right[r] == tmp[l])
+					{
+						tmp.erase(tmp.begin() + l);
+						break;
+					}						
+				if (l == l_max)
+					tmp.push_back(vector_right[r]);
+			}
+		}
+		else
+		{
+			throw std::runtime_error("Unreachable set operation");
+		}
 		return tmp;
 	}
 	else
@@ -357,7 +380,7 @@ Vec<i32>	Tree::evol_key_map_sets(Node* node, std::map<char, Vec<i32>> &key_map)
 
 Vec<i32>	Tree::result_key_map_sets(std::map<char, Vec<i32>> &key_map)
 {
-	evol_negation_normal_form(_root);
+	// evol_negation_normal_form(_root); it is not logic!!!!
 	return evol_key_map_sets(_root, key_map);
 }
 

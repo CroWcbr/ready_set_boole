@@ -144,7 +144,7 @@ int main()
 	signal(SIGQUIT, _signal_handler);	//Ctrl + '\'
 	signal(SIGTSTP, _signal_handler);	//Ctrl + 'Z'
 
-	test = 1;
+	test = 0;
 	while (true)
 	{
 		try
