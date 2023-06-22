@@ -9,6 +9,12 @@ Vec<i32>	eval_set(const std::string &str, Vec<Vec<i32>> &vector_input)
 		if (c >= 'A' && c <= 'Z')
 			key_map.insert(std::pair<char, Vec<i32>>(c, NULL));
 
+	if (vector_input.size() != key_map.size())
+	{
+		std::cout << "ERROR: amount of sets != amount of variables" <<std::endl;
+		return Vec<i32>();
+	}
+
 	size_t i = 0;
 	for (auto &c : key_map)
 		c.second = vector_input[i++];

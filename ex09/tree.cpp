@@ -261,11 +261,12 @@ void	Tree::evol_conjunction_at_the_end(Node* node)
 	if ((node->_key == '|' && node->_left->_key == '|') ||
 		(node->_key == '&' && node->_left->_key == '&'))
 	{
-		Node *old_root = _root;
-		_root = node->_left;
-		old_root->_left = _root->_right;
-		_root->_right = old_root;
-		evol_conjunction_at_the_end(_root);
+		Node *node_left = node->_left;
+		node->_left = node_left->_left;
+		node_left->_left = node_left->_right;
+		node_left->_right = node->_right;
+		node->_right = node_left;
+		evol_conjunction_at_the_end(node);
 	}
 	else
 	{
@@ -366,6 +367,53 @@ Vec<i32>	Tree::evol_key_map_sets(Node* node, std::map<char, Vec<i32>> &key_map)
 					}						
 				if (l == l_max)
 					tmp.push_back(vector_right[r]);
+			}
+		}
+		else if (node->_key == '>')
+		{
+			size_t i = 0;
+			for (; i < vector_left.size(); ++i)
+			{
+				size_t i2 = 0;
+				for (; i2 < vector_right.size(); ++i2)
+				{
+					if (vector_left[i] == vector_right[i2])
+						break;
+				}
+				if (i2 == vector_right.size())
+					break;
+			}
+			if (i == vector_left.size())
+			{
+				for (const auto &c : vector_right)
+				{
+					tmp.push_back(c);
+				}
+			}
+		}
+		else if (node->_key == '=')
+		{
+			if (vector_left.size() == vector_right.size())
+			{
+				size_t i = 0;
+				for (; i < vector_left.size(); ++i)
+				{
+					size_t i2 = 0;
+					for (; i2 < vector_right.size(); ++i2)
+					{
+						if (vector_left[i] == vector_right[i2])
+							break;
+					}
+					if (i2 == vector_right.size())
+						break;
+				}
+				if (i == vector_left.size())
+				{
+					for (const auto &c : vector_left)
+					{
+						tmp.push_back(c);
+					}
+				}
 			}
 		}
 		else

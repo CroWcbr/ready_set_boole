@@ -48,8 +48,8 @@ static vec<i32> _split(std::string const &str, const char &delim)
 
 static void	check_set(const vec<i32> &vec_input)
 {
-	if (vec_input.empty())
-		throw std::runtime_error("No element in set");
+	// if (vec_input.empty())
+	// 	throw std::runtime_error("No element in set");
 	if (std::set<i32>(vec_input.begin(), vec_input.end() ).size() != vec_input.size())
 		throw std::runtime_error("Duplicated in input vector");
 }

@@ -261,11 +261,12 @@ void	Tree::evol_conjunction_at_the_end(Node* node)
 	if ((node->_key == '|' && node->_left->_key == '|') ||
 		(node->_key == '&' && node->_left->_key == '&'))
 	{
-		Node *old_root = _root;
-		_root = node->_left;
-		old_root->_left = _root->_right;
-		_root->_right = old_root;
-		evol_conjunction_at_the_end(_root);
+		Node *node_left = node->_left;
+		node->_left = node_left->_left;
+		node_left->_left = node_left->_right;
+		node_left->_right = node->_right;
+		node->_right = node_left;
+		evol_conjunction_at_the_end(node);
 	}
 	else
 	{
