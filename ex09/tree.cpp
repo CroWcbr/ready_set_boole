@@ -371,25 +371,28 @@ Vec<i32>	Tree::evol_key_map_sets(Node* node, std::map<char, Vec<i32>> &key_map)
 		}
 		else if (node->_key == '>')
 		{
-			size_t i = 0;
-			for (; i < vector_left.size(); ++i)
-			{
-				size_t i2 = 0;
-				for (; i2 < vector_right.size(); ++i2)
-				{
-					if (vector_left[i] == vector_right[i2])
-						break;
-				}
-				if (i2 == vector_right.size())
-					break;
-			}
-			if (i == vector_left.size())
-			{
-				for (const auto &c : vector_right)
-				{
-					tmp.push_back(c);
-				}
-			}
+			// A > B == !A | B == B
+			tmp = vector_right;
+			// if A into B then B
+			// size_t i = 0;
+			// for (; i < vector_left.size(); ++i)
+			// {
+			// 	size_t i2 = 0;
+			// 	for (; i2 < vector_right.size(); ++i2)
+			// 	{
+			// 		if (vector_left[i] == vector_right[i2])
+			// 			break;
+			// 	}
+			// 	if (i2 == vector_right.size())
+			// 		break;
+			// }
+			// if (i == vector_left.size())
+			// {
+			// 	for (const auto &c : vector_right)
+			// 	{
+			// 		tmp.push_back(c);
+			// 	}
+			// }
 		}
 		else if (node->_key == '=')
 		{
